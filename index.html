@@ -14,6 +14,9 @@
         .category-header { background: #1e3a8a; color: white; padding: 8px 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 20px; border-radius: 8px 8px 0 0; }
         .item-row { background: white; border: 1px solid #e5e7eb; border-top: none; }
         .item-row:last-child { border-radius: 0 0 8px 8px; }
+        
+        /* Custom Modal Styling */
+        #refresh-modal { display: none; }
     </style>
 </head>
 <body class="bg-gray-100 pb-32">
@@ -36,6 +39,7 @@
         <!-- Manual Sorted List will be injected here -->
     </div>
 
+    <!-- Fixed Action Bar -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t p-4 shadow-lg flex items-center justify-between z-50">
         <div class="flex flex-col">
             <span class="text-[10px] text-gray-400 uppercase font-black tracking-widest">Selected</span>
@@ -44,6 +48,18 @@
         <button onclick="generateOrder()" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold active:bg-blue-700 transition transform active:scale-95 shadow-xl">
             SEND REQUISITION
         </button>
+    </div>
+
+    <!-- Refresh Warning Dialog (Triggered on manual refresh attempt if possible) -->
+    <div id="refresh-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+            <h3 class="text-lg font-bold mb-2">Warning / Cảnh Báo</h3>
+            <p class="text-gray-600 mb-6 text-sm">Refreshing will wipe out your current selections. Do you want to proceed?<br><br>Làm mới trang sẽ xóa hết các mục đã chọn. Bạn có muốn tiếp tục?</p>
+            <div class="flex space-x-3">
+                <button onclick="closeModal()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold">Cancel / Hủy</button>
+                <button onclick="location.reload()" class="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-bold">Proceed / Tiếp tục</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -64,14 +80,14 @@
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Khoai tây vỏ trắng / White potatoes", unit: "kg", qty: 5 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Khoai tây vỏ đỏ / Red potatoes", unit: "kg", qty: 10 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Bí đỏ / Pumpkin", unit: "Quả", qty: 2 },
-            { cat: "RAU CỦ / PRODUCE (VEG)", name: "Củ dền to tròn / Beetroot", unit: "Củ", qty: 2 },
+            { cat: "RAU CỦ / PRODUCE (VEG)", name: "Củ dền to tròn / Beetroot (Big & Round)", unit: "Củ", qty: 2 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Ớt hiểm đỏ / Bird's eye chili", unit: "VNĐ", qty: "15k" },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Bắp mỹ / Yellow corn", unit: "Trái", qty: 3 },
-            { cat: "RAU CỦ / PRODUCE (VEG)", name: "Chanh nước có hạt / Lime", unit: "kg", qty: 1.5 },
+            { cat: "RAU CỦ / PRODUCE (VEG)", name: "Chanh nước có hạt / Lime (with seeds)", unit: "kg", qty: 1.5 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Ớt chuông xanh / Green capsicum", unit: "kg", qty: 1 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Ớt chuông đỏ / Red capsicum", unit: "kg", qty: 1 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Nấm rơm / Straw mushroom", unit: "kg", qty: 2 },
-            { cat: "RAU CỦ / PRODUCE (VEG)", name: "Nấm hương / Shiitake mushroom", unit: "bịch", qty: 2 },
+            { cat: "RAU CỦ / PRODUCE (VEG)", name: "Nấm hương / Shiitake mushroom", unit: "Bịch", qty: 2 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Ngò tây / Parsley", unit: "Gram", qty: 150 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Hương thảo / Rosemary", unit: "Bịch", qty: 2 },
             { cat: "RAU CỦ / PRODUCE (VEG)", name: "Cần tây ép nước / Celery", unit: "Cọng", qty: 2 },
@@ -99,12 +115,12 @@
             { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Bơ (viên) / Butter cubes", unit: "Hộp", qty: 5 },
             { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Bơ (Khối) / Block butter", unit: "kg", qty: 5 },
             { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Kem nấu ăn / Cooking cream", unit: "Hộp", qty: 6 },
-            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Cheddar", unit: "Bịch", qty: 5 },
-            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Parmesan", unit: "Bịch", qty: 1 },
+            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Cheddar / Cheddar cheese", unit: "Bịch", qty: 5 },
+            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Parmesan / Parmesan cheese", unit: "Bịch", qty: 1 },
             { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai xanh / Blue cheese", unit: "Cái", qty: 1 },
-            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Brie", unit: "Hộp", qty: 12 },
-            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Swiss Emmental", unit: "Cây", qty: 1 },
-            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Bò Cười", unit: "Hộp", qty: 1 },
+            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Brie / Brie cheese", unit: "Hộp", qty: 12 },
+            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Swiss Emmental / Emmental cheese", unit: "Cây", qty: 1 },
+            { cat: "SỮA & TRỨNG / DAIRY & EGGS", name: "Phô mai Bò Cười / Laughing Cow cheese", unit: "Hộp", qty: 1 },
 
             // FROZEN
             { cat: "ĐÔNG LẠNH / FROZEN", name: "Pepperoni", unit: "Bịch", qty: 15 },
@@ -114,92 +130,92 @@
             { cat: "ĐÔNG LẠNH / FROZEN", name: "Thịt xông khói / Bacon", unit: "Bịch", qty: 30 },
             { cat: "ĐÔNG LẠNH / FROZEN", name: "Đùi cừu / Lamb leg", unit: "kg", qty: 12 },
             { cat: "ĐÔNG LẠNH / FROZEN", name: "Đậu pea / Peas", unit: "Bịch", qty: 3 },
-            { cat: "ĐÔNG LẠNH / FROZEN", name: "Phô mai Mozzarella", unit: "Thùng", qty: 4 },
-            { cat: "ĐÔNG LẠNH / FROZEN", name: "Khoai đông lạnh shoestring", unit: "Thùng", qty: 2 },
+            { cat: "ĐÔNG LẠNH / FROZEN", name: "Phô mai Mozzarella / Mozzarella", unit: "Thùng", qty: 4 },
+            { cat: "ĐÔNG LẠNH / FROZEN", name: "Khoai đông lạnh shoestring / Fries", unit: "Thùng", qty: 2 },
             { cat: "ĐÔNG LẠNH / FROZEN", name: "Việt quất / Blueberry", unit: "Bịch", qty: 3 },
 
             // DRY STORE
             { cat: "KHO / DRY STORE", name: "Tiêu đen / Black pepper", unit: "Gram", qty: 500 },
             { cat: "KHO / DRY STORE", name: "Muối Iod / Iodine Salt", unit: "Bịch", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Đường / Sugar", unit: "Bịch", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Hạt nêm xương Aji-ngon", unit: "Bịch", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Hạt nêm xương Aji-ngon / Seasoning", unit: "Bịch", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Bột năng / Corn starch", unit: "Bịch", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Giấm / Vinegar", unit: "Chai", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Dầu hàu / Oyster sauce", unit: "Chai", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Nước tương / Soya sauce", unit: "Chai", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Hạt điều / Cashew", unit: "Gram", qty: 200 },
             { cat: "KHO / DRY STORE", name: "Ớt bột / Chili flakes", unit: "Hủ", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Bột cà ri Babas", unit: "Bịch", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Bột chiên giòn", unit: "Bịch", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Bột chiên xù", unit: "Kg", qty: 20 },
+            { cat: "KHO / DRY STORE", name: "Bột cà ri Babas / Curry powder", unit: "Bịch", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Bột chiên giòn / Frying powder", unit: "Bịch", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Bột chiên xù / Breadcrumbs", unit: "Kg", qty: 20 },
             { cat: "KHO / DRY STORE", name: "Baked beans Ayam", unit: "Hộp", qty: 6 },
-            { cat: "KHO / DRY STORE", name: "Dầu ăn Cái Lân", unit: "Thùng", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Dầu ăn Cái Lân / Cooking oil", unit: "Thùng", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Gạo ST25 / Rice ST25", unit: "Kg", qty: 10 },
             { cat: "KHO / DRY STORE", name: "Dầu ô liu / Olive oil", unit: "Chai", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Cà chua lượt vỏ / Peeled", unit: "Thùng", qty: 2 },
+            { cat: "KHO / DRY STORE", name: "Cà chua lượt vỏ / Peeled tomatoes", unit: "Thùng", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Tomato paste", unit: "Thùng", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Bột Pancake / Pancake mix", unit: "Hộp", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Bột sốt gravy / Gravy mix", unit: "Hộp", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Nước cốt dừa / Coconut milk", unit: "Hộp", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Đậu gà / Chickpeas", unit: "Hộp", qty: 2 },
-            { cat: "KHO / DRY STORE", name: "Tương cà (Gói)", unit: "Thùng", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Tương ớt (Gói)", unit: "Thùng", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Rượu vang Classic Dalat", unit: "Chai", qty: 2 },
-            { cat: "KHO / DRY STORE", name: "Bột mì địa cầu 999", unit: "Bao", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Bột mì Semolina", unit: "Bịch", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Tương cà (Gói) / Ketchup sachets", unit: "Thùng", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Tương ớt (Gói) / Chili sachets", unit: "Thùng", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Rượu vang đỏ Classic Dalat / Dalat Wine", unit: "Chai", qty: 2 },
+            { cat: "KHO / DRY STORE", name: "Bột mì địa cầu 999 / Wheat flour", unit: "Bao", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Bột mì Semolina / Semolina flour", unit: "Bịch", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Bơ thơm / Margarine", unit: "Gram", qty: 500 },
-            { cat: "KHO / DRY STORE", name: "Bột béo Hà Lan / Creamer", unit: "Bịch", qty: 2 },
-            { cat: "KHO / DRY STORE", name: "Phụ gia bánh mì Baker 999", unit: "Bịch", qty: 2 },
-            { cat: "KHO / DRY STORE", name: "Bột năng khoai / Tapioca", unit: "Bịch", qty: 2 },
+            { cat: "KHO / DRY STORE", name: "Bột béo Hà Lan / Creamer powder", unit: "Bịch", qty: 2 },
+            { cat: "KHO / DRY STORE", name: "Phụ gia bánh mì Baker 999 / Additive", unit: "Bịch", qty: 2 },
+            { cat: "KHO / DRY STORE", name: "Bột năng khoai / Tapioca powder", unit: "Bịch", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Fibrisol (ham)", unit: "Bịch", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Muối đỏ hồng (ham)", unit: "Bịch", qty: 1 },
+            { cat: "KHO / DRY STORE", name: "Muối đỏ hồng (ham) / Pink salt", unit: "Bịch", qty: 1 },
 
             // JARS & SAUCES
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Ô liu đen không hạt", unit: "Hộp", qty: 1 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Ô liu đen không hạt / Pitted olives", unit: "Hộp", qty: 1 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Nụ bạch hoa / Capers", unit: "Hộp", qty: 1 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Dưa chuột muối / Pickles", unit: "Hộp", qty: 1 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Ớt Jalapenos", unit: "Chai", qty: 1 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Mù tạt vàng / Mustard", unit: "Chai", qty: 1 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Wasabi", unit: "Cái", qty: 2 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Ớt Jalapenos / Jalapenos", unit: "Chai", qty: 1 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Mù tạt vàng / Yellow mustard", unit: "Chai", qty: 1 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Wasabi / Green mustard", unit: "Cái", qty: 2 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Mayonnaise", unit: "Hộp", qty: 1 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Maple syrup", unit: "Chai", qty: 2 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Sốt BBQ / BBQ sauce", unit: "Chai", qty: 2 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Jam việt quất / Jam", unit: "Hủ", qty: 1 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Jam việt quất / Blueberry jam", unit: "Hủ", qty: 1 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Nutella", unit: "Hủ", qty: 1 },
 
             // PACKAGING
-            { cat: "BAO BÌ / PACKAGING", name: "Hộp xốp (Lớn)", unit: "Lốc", qty: 1 },
-            { cat: "BAO BÌ / PACKAGING", name: "Hộp xốp (Nhỏ)", unit: "Lốc", qty: 1 },
-            { cat: "BAO BÌ / PACKAGING", name: "Hộp nhựa đựng sốt", unit: "Lốc", qty: 1 },
-            { cat: "BAO BÌ / PACKAGING", name: "Hộp nhựa syrup / Syrup cont.", unit: "Lốc", qty: 1 },
-            { cat: "BAO BÌ / PACKAGING", name: "Hộp nhựa 750ml (súp)", unit: "Lốc", qty: 1 },
-            { cat: "BAO BÌ / PACKAGING", name: "Hộp đựng pizza", unit: "Cái", qty: 500 },
-            { cat: "BAO BÌ / PACKAGING", name: "Bao tây nilon / Gloves", unit: "Lốc", qty: 3 },
-            { cat: "BAO BÌ / PACKAGING", name: "Bịch chia 17x27", unit: "kg", qty: 3 },
-            { cat: "BAO BÌ / PACKAGING", name: "Bịch mang về 15kg", unit: "kg", qty: 3 },
-            { cat: "BAO BÌ / PACKAGING", name: "Bịch mang về 10kg", unit: "kg", qty: 3 },
-            { cat: "BAO BÌ / PACKAGING", name: "Bịch mang về 5kg", unit: "kg", qty: 3 },
-            { cat: "BAO BÌ / PACKAGING", name: "Bịch rắc đen 30kg", unit: "kg", qty: 3 },
-            { cat: "BAO BÌ / PACKAGING", name: "Giấy vuông burger 33cm", unit: "kg", qty: 2 },
+            { cat: "BAO BÌ / PACKAGING", name: "Hộp xốp (Lớn) / Large styrofoam box", unit: "Lốc", qty: 1 },
+            { cat: "BAO BÌ / PACKAGING", name: "Hộp xốp (Nhỏ) / Small styrofoam box", unit: "Lốc", qty: 1 },
+            { cat: "BAO BÌ / PACKAGING", name: "Hộp nhựa đựng sốt / Sauce container", unit: "Lốc", qty: 1 },
+            { cat: "BAO BÌ / PACKAGING", name: "Hộp nhựa syrup / Syrup container", unit: "Lốc", qty: 1 },
+            { cat: "BAO BÌ / PACKAGING", name: "Hộp nhựa 750ml (súp) / Soup container", unit: "Lốc", qty: 1 },
+            { cat: "BAO BÌ / PACKAGING", name: "Hộp đựng pizza / Pizza boxes", unit: "Cái", qty: 500 },
+            { cat: "BAO BÌ / PACKAGING", name: "Bao tây nilon / Plastic gloves", unit: "Lốc", qty: 3 },
+            { cat: "BAO BÌ / PACKAGING", name: "Bịch chia 17x27 / Portioning bags", unit: "kg", qty: 3 },
+            { cat: "BAO BÌ / PACKAGING", name: "Bịch mang về 15kg / Takeaway bag", unit: "kg", qty: 3 },
+            { cat: "BAO BÌ / PACKAGING", name: "Bịch mang về 10kg / Takeaway bag", unit: "kg", qty: 3 },
+            { cat: "BAO BÌ / PACKAGING", name: "Bịch mang về 5kg / Takeaway bag", unit: "kg", qty: 3 },
+            { cat: "BAO BÌ / PACKAGING", name: "Bịch rắc đen 30kg / Garbage bag", unit: "kg", qty: 3 },
+            { cat: "BAO BÌ / PACKAGING", name: "Giấy vuông burger 33cm / Burger paper", unit: "kg", qty: 2 },
             { cat: "BAO BÌ / PACKAGING", name: "Giấy nến nướng / Oven paper", unit: "Hộp", qty: 1 },
-            { cat: "BAO BÌ / PACKAGING", name: "Màng PE bếp", unit: "Hộp", qty: 1 },
+            { cat: "BAO BÌ / PACKAGING", name: "Màng PE bếp / Plastic wrap", unit: "Hộp", qty: 1 },
             { cat: "BAO BÌ / PACKAGING", name: "Giấy bạc / Aluminium wrap", unit: "Hộp", qty: 1 },
             { cat: "BAO BÌ / PACKAGING", name: "Dây chun / Rubber band", unit: "Bịch", qty: 1 },
             { cat: "BAO BÌ / PACKAGING", name: "Xiên tre / Bamboo sticks", unit: "Bịch", qty: 1 },
 
             // SUPPLIES
-            { cat: "VẬT TƯ / SUPPLIES", name: "Nước rửa chén / Dishwashing", unit: "Thùng", qty: 1 },
-            { cat: "VẬT TƯ / SUPPLIES", name: "Nước lâu nhà / Floor det.", unit: "Bình", qty: 1 },
+            { cat: "VẬT TƯ / SUPPLIES", name: "Nước rửa chén / Dishwashing liquid", unit: "Thùng", qty: 1 },
+            { cat: "VẬT TƯ / SUPPLIES", name: "Nước lâu nhà / Floor detergent", unit: "Bình", qty: 1 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Nước lâu bếp / Kitchen spray", unit: "Chai", qty: 1 }
         ];
 
         const floorData = [
             // BEVERAGE
-            { cat: "ĐỒ UỐNG / BEVERAGE", name: "Cà phê Việt Nam", unit: "kg", qty: 1 },
-            { cat: "ĐỒ UỐNG / BEVERAGE", name: "Nescafe Đỏ", unit: "Hộp", qty: 2 },
+            { cat: "ĐỒ UỐNG / BEVERAGE", name: "Cà phê Việt Nam / VN Coffee", unit: "kg", qty: 1 },
+            { cat: "ĐỒ UỐNG / BEVERAGE", name: "Nescafe Đỏ / Nescafe Red", unit: "Hộp", qty: 2 },
             { cat: "ĐỒ UỐNG / BEVERAGE", name: "Trà Lipton / Tea bags", unit: "Hộp", qty: 1 },
             { cat: "ĐỒ UỐNG / BEVERAGE", name: "Đường quê / Sugar sticks", unit: "Bịch", qty: 3 },
-            { cat: "ĐỒ UỐNG / BEVERAGE", name: "Tiger / Crystal", unit: "Két", qty: 1 },
+            { cat: "ĐỒ UỐNG / BEVERAGE", name: "Tiger / Tiger Crystal", unit: "Két", qty: 1 },
             { cat: "ĐỒ UỐNG / BEVERAGE", name: "Saigon Green / Red", unit: "Két", qty: 1 },
             { cat: "ĐỒ UỐNG / BEVERAGE", name: "San Miguel", unit: "Két", qty: 1 },
             { cat: "ĐỒ UỐNG / BEVERAGE", name: "Coke", unit: "Thùng", qty: 3 },
@@ -217,16 +233,16 @@
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Nước sốt HP / HP sauce", unit: "Chai", qty: 3 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Nước sốt Worcestershire", unit: "Chai", qty: 3 },
             { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Sriracha", unit: "Chai", qty: 3 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Nước tương chai nhỏ", unit: "Chai", qty: 3 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Tương ớt chai", unit: "Thùng", qty: 1 },
-            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Tương cà chai", unit: "Thùng", qty: 1 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Nước tương chai nhỏ / Soya sauce", unit: "Chai", qty: 3 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Tương ớt chai / Chili sauce", unit: "Thùng", qty: 1 },
+            { cat: "GIA VỊ & SỐT / JARS & SAUCES", name: "Tương cà chai / Ketchup bottle", unit: "Thùng", qty: 1 },
 
             // DRY STORE
             { cat: "KHO / DRY STORE", name: "Muối kho bàn / Table salt", unit: "Bịch", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Hạnh nhân 300g / Almonds", unit: "Hủ", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Whey", unit: "Hủ", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Bột cacao / Cocoa powder", unit: "Hủ", qty: 1 },
-            { cat: "KHO / DRY STORE", name: "Bánh ladyfingers", unit: "Bịch", qty: 2 },
+            { cat: "KHO / DRY STORE", name: "Bánh ladyfingers / Biscuits", unit: "Bịch", qty: 2 },
             { cat: "KHO / DRY STORE", name: "Mật ong / Honey", unit: "Chai", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Yến mạch / Oats", unit: "Hủ", qty: 1 },
             { cat: "KHO / DRY STORE", name: "Da ua / Yogurt", unit: "Hộp", qty: 6 },
@@ -248,15 +264,15 @@
             { cat: "VẬT TƯ / SUPPLIES", name: "Tăm xỉa răng / Toothpicks", unit: "Hộp", qty: 1 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Khăn ăn vuông / Napkins", unit: "Bịch", qty: 5 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Ống hút / Straws", unit: "Bịch", qty: 1 },
-            { cat: "VẬT TƯ / SUPPLIES", name: "Ly giấy 500ml", unit: "Lốc", qty: 1 },
-            { cat: "VẬT TƯ / SUPPLIES", name: "Nắp ly giấy / Lids", unit: "Lốc", qty: 1 },
+            { cat: "VẬT TƯ / SUPPLIES", name: "Ly giấy 500ml / Paper cups", unit: "Lốc", qty: 1 },
+            { cat: "VẬT TƯ / SUPPLIES", name: "Nắp ly giấy / Paper lids", unit: "Lốc", qty: 1 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Túi quai T / Carrier", unit: "Lốc", qty: 1 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Nhang muỗi / Repellant", unit: "Lốc", qty: 1 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Hộp quẹt / Lighter", unit: "Cái", qty: 2 },
             { cat: "VẬT TƯ / SUPPLIES", name: "Bút / Pen", unit: "Cái", qty: 10 },
-            { cat: "VẬT TƯ / SUPPLIES", name: "Bút bảng đen / Marker", unit: "Cái", qty: 2 },
-            { cat: "VẬT TƯ / SUPPLIES", name: "Bút dạ vĩnh cửu / Marker", unit: "Cái", qty: 2 },
-            { cat: "VẬT TƯ / SUPPLIES", name: "Giấy in bill 80mm", unit: "Cuốn", qty: 5 }
+            { cat: "VẬT TƯ / SUPPLIES", name: "Bút bảng đen / Blackboard marker", unit: "Cái", qty: 2 },
+            { cat: "VẬT TƯ / SUPPLIES", name: "Bút dạ vĩnh cửu / Permanent marker", unit: "Cái", qty: 2 },
+            { cat: "VẬT TƯ / SUPPLIES", name: "Giấy in bill 80mm / Receipt paper", unit: "Cuốn", qty: 5 }
         ];
 
         let currentTab = 'kitchen';
@@ -287,14 +303,14 @@
                         </div>
                         <div class="flex-grow" onclick="toggleItem('${itemId}', '${item.qty}')">
                             <div class="font-bold text-gray-800 text-sm leading-tight">${item.name}</div>
-                            <div class="text-[10px] text-gray-400 uppercase font-black">${item.unit}</div>
                         </div>
-                        <div class="flex items-center ${opacityClass} transition-opacity">
+                        <div class="flex flex-col items-center ${opacityClass} transition-opacity">
                             <input type="text" id="qty-${itemId}" 
                                    value="${currentVal}" 
                                    class="qty-input focus:ring-2 focus:ring-blue-500 outline-none shadow-inner"
                                    onchange="updateQty('${itemId}', this.value)"
                                    onclick="event.stopPropagation()">
+                            <div class="text-[10px] text-gray-400 uppercase font-black mt-1 leading-none">${item.unit}</div>
                         </div>
                     </div>
                 `;
@@ -305,7 +321,7 @@
         function toggleItem(id, defaultQty) {
             const row = document.getElementById(`row-${id}`);
             const checkbox = document.getElementById(`check-${id}`);
-            const inputContainer = row.querySelector('.flex.items-center.transition-opacity');
+            const inputContainer = row.querySelector('.flex.flex-col.items-center');
             
             if (selections.has(id)) {
                 selections.delete(id);
@@ -327,7 +343,7 @@
             if (!document.getElementById(`check-${id}`).checked) {
                 document.getElementById(`check-${id}`).checked = true;
                 row.classList.add('bg-blue-50', 'border-blue-300');
-                row.querySelector('.flex.items-center.transition-opacity').classList.remove('opacity-20');
+                row.querySelector('.flex.flex-col.items-center').classList.remove('opacity-20');
             }
             updateCount();
         }
@@ -377,7 +393,6 @@
             const kitchenLines = [];
             const floorLines = [];
 
-            // Sort logic for output: Preserve the array order
             kitchenData.forEach((item, index) => {
                 const id = `kitchen-${index}`;
                 if (selections.has(id)) kitchenLines.push(`• ${item.name}: ${selections.get(id)} ${item.unit}`);
@@ -403,6 +418,36 @@
                 alert("Order copied to clipboard! Paste it into WhatsApp, Zalo, or SMS to send.");
             }, 800);
         }
+
+        // --- REFRESH WARNING LOGIC ---
+        function closeModal() {
+            document.getElementById('refresh-modal').style.display = 'none';
+        }
+
+        // Standard browser beforeunload to prevent accidental tab closing/refreshing
+        window.addEventListener('beforeunload', (e) => {
+            if (selections.size > 0) {
+                // Browsers show their own native prompt here
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        // Detect manual swipe-to-refresh on mobile if possible
+        let touchStart;
+        window.addEventListener('touchstart', function(e) {
+            touchStart = e.touches[0].pageY;
+        }, {passive: true});
+
+        window.addEventListener('touchmove', function(e) {
+            const touchMove = e.touches[0].pageY;
+            // If pulling down at the top of the page
+            if (window.scrollY === 0 && touchMove > touchStart + 10 && selections.size > 0) {
+                // We show a custom modal because beforeunload doesn't always catch swipe-to-refresh
+                // This is a "soft" warning
+                document.getElementById('refresh-modal').style.display = 'flex';
+            }
+        }, {passive: true});
 
         window.onload = renderList;
     </script>
